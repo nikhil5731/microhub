@@ -6,9 +6,15 @@ interface Props {
   currentUserId: string;
   accountId: string;
   accountType: string;
+  currentUserInfo_id: String;
 }
 
-const ThreadsTab = async ({ currentUserId, accountId, accountType }: Props) => {
+const ThreadsTab = async ({
+  currentUserId,
+  accountId,
+  accountType,
+  currentUserInfo_id,
+}: Props) => {
   // FetchUserPost
   const result = await fetchUserPosts(accountId);
 
@@ -28,9 +34,10 @@ const ThreadsTab = async ({ currentUserId, accountId, accountType }: Props) => {
               ? { name: result.name, image: result.image, id: result.id }
               : thread.author
           }
-          community={thread.community}
           createdAt={thread.createdAt}
           comments={thread.children}
+          likes={thread.likes.length}
+          isUserLiked={thread.likes.includes(currentUserInfo_id)}
         />
       ))}
     </section>

@@ -28,7 +28,9 @@ export function formatDateString(dateString: string) {
     minute: "2-digit",
   });
 
-  return `${time} - ${formattedDate}`;
+  // return `${time} - ${formattedDate}`;
+
+  return { time, formattedDate };
 }
 
 // created by chatgpt

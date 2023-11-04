@@ -30,12 +30,6 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  communities: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: "Community",
-    },
-  ],
 });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
