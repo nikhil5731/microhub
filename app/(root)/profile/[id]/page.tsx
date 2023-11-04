@@ -24,6 +24,8 @@ async function Page({ params }: { params: { id: string } }) {
         username={userInfo.username}
         imgUrl={userInfo.image}
         bio={userInfo.bio}
+        followers={userInfo.followers.length}
+        isFollowed={!userInfo.followers.includes(currentUserInfo._id)}
       />
       <div className="mt-9">
         <Tabs defaultValue="threads" className="w-full">
@@ -56,7 +58,7 @@ async function Page({ params }: { params: { id: string } }) {
                 currentUserId={user.id}
                 accountId={userInfo.id}
                 accountType="User"
-                currentUserInfo_id = {currentUserInfo._id}
+                currentUserInfo_id={currentUserInfo._id}
               />
             </TabsContent>
           ))}

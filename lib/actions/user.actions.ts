@@ -12,7 +12,10 @@ export async function fetchUser(userId: string) {
   try {
     connectToDB();
 
-    return await User.findOne({ id: userId });
+    return await User.findOne({ id: userId }).populate({
+      path: "followers",
+      model: User,
+    });
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`);
   }
@@ -169,5 +172,34 @@ export async function getActivity(userId: string) {
   } catch (error) {
     console.error("Error fetching replies: ", error);
     throw error;
+  }
+}
+
+export async function addFollowers({
+  userId,
+  currentUserId,
+}: {
+  userId: string;
+  currentUserId: string;
+}) {
+  try {
+    connectToDB();
+    const usertoFollow = await User.findOne({ id: userId });
+    const currentUser = await User.findOne({ id: currentUserId });
+    const isFollowed = usertoFollow.followers.includes(currentUser._id);
+
+    if (!isFollowed) {
+      usertoFollow.followers.push(currentUser._id);
+      await usertoFollow.save();
+      return { followers: usertoFollow.followers.length, status: !isFollowed };
+    }
+    let index = usertoFollow.followers.indexOf(currentUser._id);
+    usertoFollow.followers.splice(index, 1);
+    await usertoFollow.save();
+    return { followers: usertoFollow.followers.length, status: !isFollowed };
+    // return isFollowed;
+  } catch (error: any) {
+    throw new Error(`Failed to manage followers ${error.message}`);
+    // console.log(error.message);
   }
 }

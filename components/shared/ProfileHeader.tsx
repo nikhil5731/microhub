@@ -1,4 +1,9 @@
+"use client";
+
 import Image from "next/image";
+import { Button } from "../ui/button";
+import { addFollowers } from "@/lib/actions/user.actions";
+import { useState } from "react";
 
 interface Props {
   accountId: string;
@@ -7,6 +12,8 @@ interface Props {
   username: string;
   imgUrl: string;
   bio: string;
+  followers: Number;
+  isFollowed: Boolean;
 }
 
 const ProfileHeader = ({
@@ -16,11 +23,25 @@ const ProfileHeader = ({
   username,
   imgUrl,
   bio,
+  followers,
+  isFollowed,
 }: Props) => {
+  const [noOfFollowers, setNoOfFollowers] = useState(followers);
+  const [isFollowedUser, setIsFollowedUser] = useState(isFollowed);
+
+  const handleClick = async (e: any) => {
+    e.preventDefault();
+    const result = await addFollowers({
+      userId: accountId,
+      currentUserId: authUserId,
+    });
+    setNoOfFollowers(result.followers);
+    setIsFollowedUser(result.status);
+  };
   return (
-    <div className="flex w-full flex-col justify-start">
+    <div className="flex w-full flex-col">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center w-full gap-3 justify-between">
           <div className="relative h-20 w-20 object-cover">
             <Image
               src={imgUrl}
@@ -36,9 +57,20 @@ const ProfileHeader = ({
             </h2>
             <p className="text-base-medium text-gray-1">@{username}</p>
           </div>
+          <Button
+            className={`${
+              !isFollowedUser ? "user-card_btn" : "user-card_btn2"
+            }`}
+            onClick={handleClick}
+          >
+            {!isFollowedUser ? "Follow" : "Following"}
+          </Button>
         </div>
       </div>
-      <p className="mt-6 max-w-lg text-base-regular text-light-2">{bio}</p>
+      <p className="mt-4 text-base-semibold text-gray-1">
+        {`${noOfFollowers}`} Followers
+      </p>
+      <p className="mt-1 max-w-lg text-base-regular text-light-2">{bio}</p>
       <div className="mt-12 h-0.5 w-full bg-dark-3"></div>
     </div>
   );

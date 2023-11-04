@@ -23,7 +23,13 @@ const userSchema = new mongoose.Schema({
   threads: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: "Threads",
+      ref: "Thread",
+    },
+  ],
+  followers: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
     },
   ],
   onboarded: {
