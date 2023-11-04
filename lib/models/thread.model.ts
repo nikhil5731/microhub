@@ -10,10 +10,6 @@ const threadSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  community: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Community",
-  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -21,6 +17,12 @@ const threadSchema = new mongoose.Schema({
   parentId: {
     type: String,
   },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   children: [
     {
       type: mongoose.Schema.Types.ObjectId,

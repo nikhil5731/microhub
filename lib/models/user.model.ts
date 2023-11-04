@@ -23,19 +23,19 @@ const userSchema = new mongoose.Schema({
   threads: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: "Threads",
+      ref: "Thread",
+    },
+  ],
+  followers: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
     },
   ],
   onboarded: {
     type: Boolean,
     default: false,
   },
-  communities: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: "Community",
-    },
-  ],
 });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);

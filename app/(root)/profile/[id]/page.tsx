@@ -10,6 +10,8 @@ import { redirect } from "next/navigation";
 async function Page({ params }: { params: { id: string } }) {
   const user = await currentUser();
   if (!user) return null;
+
+  const currentUserInfo = await fetchUser(user.id);
   const userInfo = await fetchUser(params.id);
   if (!userInfo?.onboarded) redirect("/onboarding");
 
@@ -22,6 +24,8 @@ async function Page({ params }: { params: { id: string } }) {
         username={userInfo.username}
         imgUrl={userInfo.image}
         bio={userInfo.bio}
+        followers={userInfo.followers.length}
+        isFollowed={!userInfo.followers.includes(currentUserInfo._id)}
       />
       <div className="mt-9">
         <Tabs defaultValue="threads" className="w-full">
@@ -54,6 +58,7 @@ async function Page({ params }: { params: { id: string } }) {
                 currentUserId={user.id}
                 accountId={userInfo.id}
                 accountType="User"
+                currentUserInfo_id={currentUserInfo._id}
               />
             </TabsContent>
           ))}
