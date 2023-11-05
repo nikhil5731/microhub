@@ -45,6 +45,7 @@ async function Home({
                 comments={post.children}
                 likes={post.likes.length}
                 isUserLiked={post.likes.includes(userInfo._id)}
+                isDeletable={user.id === post.author.id}
               />
             ))}
           </>

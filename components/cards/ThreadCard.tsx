@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import LikeButton from "../shared/LikeButton";
+import DeleteButton from "../shared/DeleteButton";
 
 interface Props {
   id: string;
@@ -25,6 +26,7 @@ interface Props {
   isComment?: boolean;
   likes: Number;
   isUserLiked: Boolean;
+  isDeletable: Boolean;
 }
 
 const ThreadCard = ({
@@ -38,6 +40,7 @@ const ThreadCard = ({
   isComment,
   likes,
   isUserLiked,
+  isDeletable,
 }: Props) => {
   return (
     <article
@@ -71,7 +74,7 @@ const ThreadCard = ({
                   threadId={JSON.stringify(id)}
                   likes={likes}
                   currentUserId={JSON.stringify(currentUserId)}
-                  isUserLiked = {isUserLiked}
+                  isUserLiked={isUserLiked}
                 />
 
                 <div>
@@ -85,13 +88,7 @@ const ThreadCard = ({
                     />
                   </Link>
                 </div>
-                <Image
-                  src={"/assets/repost.svg"}
-                  alt="repost"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer object-contain"
-                />
+                {isDeletable && <DeleteButton id={id} authorId={author.id}/>}
                 <Image
                   src={"/assets/share.svg"}
                   alt="share"
