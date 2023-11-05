@@ -25,7 +25,7 @@ async function Page({ params }: { params: { id: string } }) {
         imgUrl={userInfo.image}
         bio={userInfo.bio}
         followers={userInfo.followers.length}
-        isFollowed={!userInfo.followers.includes(currentUserInfo._id)}
+        isFollowed={userInfo.followers.includes(currentUserInfo._id)}
       />
       <div className="mt-9">
         <Tabs defaultValue="threads" className="w-full">
