@@ -6,6 +6,7 @@ import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { boolean } from "zod";
 
 async function Page({ params }: { params: { id: string } }) {
   const user = await currentUser();
@@ -13,6 +14,8 @@ async function Page({ params }: { params: { id: string } }) {
 
   const currentUserInfo = await fetchUser(user.id);
   const userInfo = await fetchUser(params.id);
+  
+  // console.log( currentUserInfo );
   if (!userInfo?.onboarded) redirect("/onboarding");
 
   return (
@@ -25,7 +28,9 @@ async function Page({ params }: { params: { id: string } }) {
         imgUrl={userInfo.image}
         bio={userInfo.bio}
         followers={userInfo.followers.length}
-        isFollowed={userInfo.followers.includes(currentUserInfo._id)}
+        isFollowed={userInfo.followers.some((e: any) => {
+          return e.id === currentUserInfo.id;
+        })}
       />
       <div className="mt-9">
         <Tabs defaultValue="threads" className="w-full">

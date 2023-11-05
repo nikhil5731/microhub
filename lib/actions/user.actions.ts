@@ -15,6 +15,7 @@ export async function fetchUser(userId: string) {
     return await User.findOne({ id: userId }).populate({
       path: "followers",
       model: User,
+      select:"id"
     });
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`);

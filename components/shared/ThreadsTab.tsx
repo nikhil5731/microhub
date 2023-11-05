@@ -38,6 +38,7 @@ const ThreadsTab = async ({
           comments={thread.children}
           likes={thread.likes.length}
           isUserLiked={thread.likes.includes(currentUserInfo_id)}
+          isDeletable={currentUserId === accountId}
         />
       ))}
     </section>
