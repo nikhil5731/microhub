@@ -12,7 +12,6 @@ const DeleteButton = ({ id, authorId }: { id: string; authorId: string }) => {
   const handleClick = (e: any) => {
     e.preventDefault();
     deleteThread(id, pathName);
-    router.push("/");
   };
   console.log(pathName)
   return (

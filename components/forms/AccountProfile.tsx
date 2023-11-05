@@ -24,6 +24,7 @@ import { isBase64Image } from "@/lib/utils";
 
 import { UserValidation } from "@/lib/validations/user";
 import { updateUser } from "@/lib/actions/user.actions";
+import { Skeleton } from "../ui/skeleton";
 
 interface Props {
   user: {
@@ -41,6 +42,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const { startUpload } = useUploadThing("media");
+  const [loading, setLoading] = useState(false);
 
   const [files, setFiles] = useState<File[]>([]);
 
@@ -55,6 +57,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
   });
 
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
+    setLoading(true);
     const blob = values.profile_photo;
 
     const hasImageChanged = isBase64Image(blob);
@@ -209,9 +212,15 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
           )}
         />
 
-        <Button type="submit" className="bg-primary-500">
-          {btnTitle}
-        </Button>
+        {loading ? (
+          <>
+            <Skeleton className="w-[100%] h-[20px]" />
+          </>
+        ) : (
+          <Button type="submit" className="bg-primary-500">
+            {btnTitle}
+          </Button>
+        )}
       </form>
     </Form>
   );

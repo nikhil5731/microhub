@@ -29,7 +29,6 @@ const Page = async ({ params }: { params: { id: string } }) => {
           comments={thread.children}
           likes={thread.likes.length}
           isUserLiked={thread.likes.includes(userInfo._id)}
-          isDeletable={userInfo.id === thread.author.id}
         />
       </div>
       <div className="mt-7">
@@ -53,7 +52,6 @@ const Page = async ({ params }: { params: { id: string } }) => {
             isComment
             likes={childItem.likes.length}
             isUserLiked={childItem.likes.includes(userInfo._id)}
-            isDeletable={userInfo.id === thread.author.id}
           />
         ))}
       </div>
