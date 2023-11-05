@@ -13,6 +13,7 @@ interface Props {
 }
 
 const UserCard = ({ id, name, username, imgUrl, personType }: Props) => {
+  console.log(imgUrl);
   const router = useRouter();
   return (
     <article className="user-card">

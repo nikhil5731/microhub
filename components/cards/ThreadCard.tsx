@@ -26,7 +26,7 @@ interface Props {
   isComment?: boolean;
   likes: Number;
   isUserLiked: Boolean;
-  isDeletable: Boolean;
+  isDeletable?: Boolean;
 }
 
 const ThreadCard = ({
@@ -88,7 +88,7 @@ const ThreadCard = ({
                     />
                   </Link>
                 </div>
-                {isDeletable && <DeleteButton id={id} authorId={author.id}/>}
+                {isDeletable && <DeleteButton id={id} authorId={author.id} />}
                 <Image
                   src={"/assets/share.svg"}
                   alt="share"

@@ -17,6 +17,8 @@ import { usePathname, useRouter } from "next/navigation";
 // import { updateUser } from "@/lib/actions/user.actions";
 import { ThreadValidation } from "@/lib/validations/thread";
 import { createThread } from "@/lib/actions/thread.actions";
+import { useState } from "react";
+import { Skeleton } from "../ui/skeleton";
 
 interface Props {
   user: {
@@ -33,6 +35,7 @@ interface Props {
 function PostThread({ userId }: { userId: string }) {
   const router = useRouter();
   const pathname = usePathname();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(ThreadValidation),
@@ -45,6 +48,7 @@ function PostThread({ userId }: { userId: string }) {
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
     // console.log(organization);
     // "org_2XfnRwGxLdEu1QpnhVMCIzXEnPW"
+    setLoading(true);
     await createThread({
       text: values.thread,
       author: userId,
@@ -80,9 +84,15 @@ function PostThread({ userId }: { userId: string }) {
               </FormItem>
             )}
           />
-          <Button type="submit" className="bg-primary-500">
-            Post Thread
-          </Button>
+          {loading ? (
+            <>
+              <Skeleton className="w-[100%] h-[30px]" />
+            </>
+          ) : (
+            <Button type="submit" className="bg-primary-500">
+              Post Thread
+            </Button>
+          )}
         </form>
       </Form>
     </>
